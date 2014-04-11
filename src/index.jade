@@ -1,0 +1,138 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    title Docker Meetup Tokyo #2
+
+    // build:css styles/styles.css
+    //- Check out 'src/bower_components/prism/themes/' for available themes
+    link(rel='stylesheet', type='text/css', href='bower_components/prism/themes/prism-tomorrow.css')
+    link(rel='stylesheet', type='text/css', href='styles/main.css')
+    // endbuild
+
+  body
+
+    article
+
+      section
+        h1 Docker Meetup Tokyo #2
+        h2 Aiming解析チームでの利用例
+        ul
+          li 松崎啓治 2014/4/11
+
+      section
+        h1 お前誰?
+        ul
+          li
+          li <a href="https://twitter.com/xga">@xga</a>
+          li Aiming Inc. 2013/6〜
+          li データ解析チーム 2013/10〜
+
+      section
+        h1 今回話す事例
+        ul
+          li
+          li GRF/HRF をDocker化した
+
+      section
+        h1 GRF/HRF is 何
+        h2 メトリクス計測ツール
+        h3 <a href="http://kazeburo.github.io/GrowthForecast/">Growthforecast</a>
+        h3 <a href="https://github.com/kazeburo/HRForecast">HRForecast</a>
+
+        ul
+          li
+          li CPUの負荷とか
+          li ユーザー数(リアルタイム)とか
+          li HiveQueryの結果とか
+
+      section
+        h1 GRF/HRFをDocker container化
+        ul
+          li
+          li 複数のゲームタイトルに適用
+          li ゲームタイトル1つでCPU/DB負荷使い切るわけじゃない
+          li 同じインスタンスに複数のGRF/HRF同居
+
+      section
+        h1 同居すると
+        ul
+          li 
+          li 1つのDBに複数のGRF/HRFのDB
+          li 1つのマシンに複数のプロセス
+
+      section
+        h1 これはつらい
+        ul
+          li 
+          li Docker 0.7リリース! 2013/12
+          li RHELに対応してるしいけるなこれ
+
+      section
+        h2 GRF/HRFのDockerfileをつくった
+        ul
+          li
+          li 最初Dockerに対してふわっとしていた
+          li がんばって作った
+          li データはdockerホストに保存
+          li データ以外の部分は表に出しても問題ない
+
+      section
+        h2 GRF/HRFのDockerfileをつくった
+        h3 Docker indexにて公開
+        p <a href="https://index.docker.io/u/futoase/docker-growthforecast/">docker-growthforecast</a>
+        p <a href="https://index.docker.io/u/futoase/docker-hrforecast/">docker-hrforecast</a>
+
+      section
+        h2 社内でのデプロイ
+        h3 ansibleを利用してdocker pull
+
+        hr
+        pre
+          code.language-javascript.
+            - name: docker run of growthforecast for hoge
+              shell: docker run -p 5000:80 -name grf_hoge_$(date + "%Y%m%d%I%M%S) -e TIME_ZONE=tokyo futoase/growthforecast 
+            - name: docker run of growthforecast for uge
+              shell: docker run -p 5010:80 -name grf_uge_$(date + "%Y%m%d%I%M%S) -e TIME_ZONE=tokyo futoase/growthforecast 
+
+      section
+        h1 運用してみて
+        ul
+          li
+          li クラウドベンダを意識しなくなくなった
+          li OSさえdockerがサポートしているものを使えばいい
+          li 複数のソフトウェアを同居しなければならない場合にクソ便利
+          li スケールアウトしたい -> docker export
+          li host側にレコードを保存してる -> docker image更新サクサク
+
+      section
+        h1 Dockerについて感想
+        ul
+          li
+          li Docker v0.9から安定度増してる
+          li Dockerは特別なツールではなくなっている
+          li あって当たり前のものになりつつある
+          li 単機能省力化最高
+          li docker pullすりゃいい
+          li アプリ運用者と作成者の間の環境ネゴシエーションの撤廃
+
+      section
+        h1 以上です！
+        h2 ご清聴ありがとうございました！
+        h3 Aiming Inc.ではエンジニアを募集してます
+        h5 <a href="https://jobs.forkwell.com/aiming">https://jobs.forkwell.com/aiming</a>
+
+    // build:js scripts/scripts.js
+    script(src='bower_components/bespoke.js/dist/bespoke.min.js')
+    script(src='bower_components/bespoke-keys/dist/bespoke-keys.min.js')
+    script(src='bower_components/bespoke-touch/dist/bespoke-touch.min.js')
+    script(src='bower_components/bespoke-bullets/dist/bespoke-bullets.min.js')
+    script(src='bower_components/bespoke-scale/dist/bespoke-scale.min.js')
+    script(src='bower_components/bespoke-hash/dist/bespoke-hash.min.js')
+    script(src='bower_components/bespoke-progress/dist/bespoke-progress.min.js')
+    script(src='bower_components/bespoke-state/dist/bespoke-state.min.js')
+    script(src='bower_components/bespoke-forms/dist/bespoke-forms.min.js')
+    script(src='bower_components/prism/prism.js')
+    script(src='scripts/main.js')
+    // endbuild

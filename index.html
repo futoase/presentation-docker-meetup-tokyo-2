@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Docker Meetup Tokyo #2</title>
+    <link rel="stylesheet" href="styles/styles.css"/>
+  </head>
+  <body>
+    <article>
+      <section>
+        <h1>Docker Meetup Tokyo #2</h1>
+        <h2>Aiming解析チームでの利用例</h2>
+        <ul>
+          <li>松崎啓治 2014/4/11</li>
+        </ul>
+      </section>
+      <section>
+        <h1>お前誰?</h1>
+        <ul>
+          <li></li>
+          <li><a href="https://twitter.com/xga">@xga</a></li>
+          <li>Aiming Inc. 2013/6〜</li>
+          <li>データ解析チーム 2013/10〜</li>
+        </ul>
+      </section>
+      <section>
+        <h1>今回話す事例</h1>
+        <ul>
+          <li></li>
+          <li>GRF/HRF をDocker化した</li>
+        </ul>
+      </section>
+      <section>
+        <h1>GRF/HRF is 何</h1>
+        <h2>メトリクス計測ツール</h2>
+        <h3><a href="http://kazeburo.github.io/GrowthForecast/">Growthforecast</a></h3>
+        <h3><a href="https://github.com/kazeburo/HRForecast">HRForecast</a></h3>
+        <ul>
+          <li></li>
+          <li>CPUの負荷とか</li>
+          <li>ユーザー数(リアルタイム)とか</li>
+          <li>HiveQueryの結果とか</li>
+        </ul>
+      </section>
+      <section>
+        <h1>GRF/HRFをDocker container化</h1>
+        <ul>
+          <li></li>
+          <li>複数のゲームタイトルに適用</li>
+          <li>ゲームタイトル1つでCPU/DB負荷使い切るわけじゃない</li>
+          <li>同じインスタンスに複数のGRF/HRF同居</li>
+        </ul>
+      </section>
+      <section>
+        <h1>同居すると</h1>
+        <ul>
+          <li></li>
+          <li>1つのDBに複数のGRF/HRFのDB</li>
+          <li>1つのマシンに複数のプロセス</li>
+        </ul>
+      </section>
+      <section>
+        <h1>これはつらい</h1>
+        <ul>
+          <li></li>
+          <li>Docker 0.7リリース! 2013/12</li>
+          <li>RHELに対応してるしいけるなこれ</li>
+        </ul>
+      </section>
+      <section>
+        <h2>GRF/HRFのDockerfileをつくった</h2>
+        <ul>
+          <li></li>
+          <li>最初Dockerに対してふわっとしていた</li>
+          <li>がんばって作った</li>
+          <li>データはdockerホストに保存</li>
+          <li>データ以外の部分は表に出しても問題ない</li>
+        </ul>
+      </section>
+      <section>
+        <h2>GRF/HRFのDockerfileをつくった</h2>
+        <h3>Docker indexにて公開</h3>
+        <p><a href="https://index.docker.io/u/futoase/docker-growthforecast/">docker-growthforecast</a></p>
+        <p><a href="https://index.docker.io/u/futoase/docker-hrforecast/">docker-hrforecast</a></p>
+      </section>
+      <section>
+        <h2>社内でのデプロイ</h2>
+        <h3>ansibleを利用してdocker pull</h3>
+        <hr>
+        <pre><code class="language-javascript">- name: docker run of growthforecast for hoge
+  shell: docker run -p 5000:80 -name grf_hoge_$(date + "%Y%m%d%I%M%S) -e TIME_ZONE=tokyo futoase/growthforecast 
+- name: docker run of growthforecast for uge
+  shell: docker run -p 5010:80 -name grf_uge_$(date + "%Y%m%d%I%M%S) -e TIME_ZONE=tokyo futoase/growthforecast 
+  </code></pre>
+      </section>
+      <section>
+        <h1>運用してみて</h1>
+        <ul>
+          <li></li>
+          <li>クラウドベンダを意識しなくなくなった</li>
+          <li>OSさえdockerがサポートしているものを使えばいい</li>
+          <li>複数のソフトウェアを同居しなければならない場合にクソ便利</li>
+          <li>スケールアウトしたい -> docker export</li>
+          <li>host側にレコードを保存してる -> docker image更新サクサク</li>
+        </ul>
+      </section>
+      <section>
+        <h1>Dockerについて感想</h1>
+        <ul>
+          <li></li>
+          <li>Docker v0.9から安定度増してる</li>
+          <li>Dockerは特別なツールではなくなっている</li>
+          <li>あって当たり前のものになりつつある</li>
+          <li>単機能省力化最高</li>
+          <li>docker pullすりゃいい</li>
+          <li>アプリ運用者と作成者の間の環境ネゴシエーションの撤廃</li>
+        </ul>
+      </section>
+      <section>
+        <h1>以上です！</h1>
+        <h2>ご清聴ありがとうございました！</h2>
+        <h3>Aiming Inc.ではエンジニアを募集してます</h3>
+        <h5><a href="https://jobs.forkwell.com/aiming">https://jobs.forkwell.com/aiming</a></h5>
+      </section>
+    </article>
+    <script src="scripts/scripts.js"></script>
+  </body>
+</html>
